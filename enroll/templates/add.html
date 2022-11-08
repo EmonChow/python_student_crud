@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <h3 class="text-center alert alert-info"> Add and Show Student </h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" class="btn btn-success" value="Add">
+            </form>
+        </div>
+        <div class="col-sm-8">
+            <h3 class="text-center alert alert-info">Show student Information</h3>
+            {% if datas %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                {% for data in datas  %}
+                <tr>
+                    <th scope="row">{{data.id}}</th>
+                    <td>{{data.name}}</td>
+                    <td>{{data.email}}</td>
+                    <td>{{data.password}}</td>
+                    <td>
+                         <a href="{% url 'update_data' data.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{% url 'delete_data' data.id %}" method="post" class="d-inline">
+
+                            <input type="submit" class="btn btn-danger" value="Delete">
+                             {% csrf_token %}
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% else %}
+            <h2 class="text-center alert alert-warning">No records</h2>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
